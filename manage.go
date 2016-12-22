@@ -76,15 +76,15 @@ func setupManageRoutes(router *gin.Engine) {
 		c.HTML(http.StatusOK, "orgs.tmpl.html", gin.H{"orgs": orgsWithAccounts})
 	})
 
-	manage.GET("/orgs/:org_id", func(c *gin.Context) {
+	manage.GET("/orgs/:org_id/link", func(c *gin.Context) {
 		org, failed := getAndValidateOrg(c)
 		if failed {
 			return
 		}
-		c.HTML(http.StatusOK, "org.tmpl.html", gin.H{"org": org})
+		c.HTML(http.StatusOK, "link.tmpl.html", gin.H{"org": org})
 	})
 
-	manage.POST("/orgs/:org_id/account", func(c *gin.Context) {
+	manage.POST("/orgs/:org_id/link", func(c *gin.Context) {
 		org, failed := getAndValidateOrg(c)
 		if failed {
 			return
@@ -97,9 +97,31 @@ func setupManageRoutes(router *gin.Engine) {
 		err := db.SaveAccount(account)
 		if err != nil {
 			logger.Print("Error saving account: ", err.Error())
-			c.String(500, "Error saving account: "+err.Error())
+			c.String(500, "Error linking account: "+err.Error())
 		} else {
-			c.Redirect(302, "/manage/orgs/"+c.Param("org_id"))
+			c.Redirect(302, "/manage/orgs/")
+		}
+	})
+
+	manage.GET("/orgs/:org_id/unlink", func(c *gin.Context) {
+		org, failed := getAndValidateOrg(c)
+		if failed {
+			return
+		}
+		c.HTML(http.StatusOK, "unlink.tmpl.html", gin.H{"org": org})
+	})
+
+	manage.POST("/orgs/:org_id/unlink", func(c *gin.Context) {
+		org, failed := getAndValidateOrg(c)
+		if failed {
+			return
+		}
+		err := db.DeleteAccount(org.Id)
+		if err != nil {
+			logger.Print("Error deleting account: ", err.Error())
+			c.String(500, "Error unlinking account: "+err.Error())
+		} else {
+			c.Redirect(302, "/manage/orgs/")
 		}
 	})
 

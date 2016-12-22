@@ -167,6 +167,19 @@ func (c *DbController) SaveAccount(newAccount *Account) error {
 	return nil
 }
 
+func (c *DbController) DeleteAccount(ownerId string) error {
+	result, err := c.db.Exec(
+		`DELETE FROM accounts WHERE owner_uuid = $1`, ownerId)
+	if err != nil {
+		logger.Print("Error deleting account: ", err)
+		return err
+	}
+	if rowsAffected, _ := result.RowsAffected(); rowsAffected != 1 {
+		logger.Print("While deleting account for owner id ", ownerId, ", ", rowsAffected, " was affected. 1 row was expected.")
+	}
+	return nil
+}
+
 func (c *DbController) MarkResourceForDeletion(providerId string) error {
 	result, err := c.db.Exec(
 		"UPDATE addon_resources SET mark_for_deletion=true WHERE provider_resource_id = $1",

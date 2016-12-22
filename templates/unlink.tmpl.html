@@ -1,0 +1,14 @@
+<html>
+{{template "purple.tmpl.html"}}
+<body>
+  <div class="purple-box u-padding-Al">
+    <h4>Are you sure you want to unlink AWS Account for {{ .org.Name }}?</h4>
+    You will no longer be able to create or destroy bucket addons on this team. Existing buckets are unaffected.
+    <form role="form" action="unlink" method="POST">
+      <button type="submit" class="btn btn-default">Unlink</button>
+    </form>
+  </div>
+
+  {{template "bottomjs.tmpl.html"}}
+</body>
+</html>

@@ -77,7 +77,7 @@ func HandleCallback(cookieSecret string, oauthSecret string) gin.HandlerFunc {
 
 	return func(c *gin.Context) {
 		code := c.Query("code")
-		state := c.Query("state")
+		//state := c.Query("state")
 		client, err := heroku.NewClientFromCode(oauthSecret, code)
 		if err != nil {
 			c.String(400, "OAuth failure: "+err.Error())

@@ -20,13 +20,13 @@
                   {{ .AWSAccessKeyId }}
               </td>
               <td>
-                <button type="button" class="btn btn-danger">Unlink</button>
+                <a href="{{ .Organization.Id }}/unlink" class="btn btn-danger">Unlink</a>
               </td>
             {{ else }}
               <td>
               </td>
               <td>
-                <button type="button" class="btn btn-default">Link</button>
+                <a href="{{ .Organization.Id }}/link" class="btn btn-default">Link</a>
               </td>
             {{ end }}
           </tr>
