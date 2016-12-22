@@ -1,0 +1,40 @@
+<html>
+  {{template "purple.tmpl.html"}}
+<body>
+  <div class="purple-box u-padding-Al">
+    <h4>AWS Account Settings for your Teams</h4>
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Team</th>
+          <th>Linked AWS Account</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        {{ range .orgs }}
+          <tr>
+            <td><a href="{{ .Organization.Id }}">{{ .Organization.Name }}</a></td>
+            {{ if .HasAccount }}
+              <td>
+                  {{ .AWSAccessKeyId }}
+              </td>
+              <td>
+                <button type="button" class="btn btn-danger">Unlink</button>
+              </td>
+            {{ else }}
+              <td>
+              </td>
+              <td>
+                <button type="button" class="btn btn-default">Link</button>
+              </td>
+            {{ end }}
+          </tr>
+        {{ end }}
+      </tbody>
+    </table>
+  </div>
+
+  {{template "bottomjs.tmpl.html"}}
+</body>
+</html>
