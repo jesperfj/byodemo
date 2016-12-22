@@ -70,13 +70,14 @@ func HandleCallback(cookieSecret string, oauthSecret string) gin.HandlerFunc {
 
 	fernetKey, err := fernet.DecodeKey(cookieSecret)
 	if err != nil {
+		// Fatal is ok because this function should always be called during server
+		// initialization.
 		logger.Fatal("Cookie secret is not a valid Fernet key")
 	}
 
 	return func(c *gin.Context) {
 		code := c.Query("code")
 		state := c.Query("state")
-		logger.Print("Received callback with code ", code, " and state ", state)
 		client, err := heroku.NewClientFromCode(oauthSecret, code)
 		if err != nil {
 			c.String(400, "OAuth failure: "+err.Error())

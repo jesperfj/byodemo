@@ -91,7 +91,6 @@ func (c *DbController) FindAccount(ownerUuid string) (Account, error) {
 }
 
 func (c *DbController) FindAccounts(ownerIds []string) map[string]string {
-	logger.Print(ownerIds)
 	rows, _ := c.db.Query(`
 		 SELECT owner_uuid, aws_access_key_id
 		 FROM   accounts
