@@ -1,1 +1,1 @@
-web: byoaws
+web: byodemo
