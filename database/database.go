@@ -6,6 +6,7 @@ import (
 	"os"
 
 	"database/sql"
+	"github.com/lib/pq"
 	_ "github.com/lib/pq"
 
 	fernet "github.com/fernet/fernet-go"
@@ -87,6 +88,24 @@ func (c *DbController) FindAccount(ownerUuid string) (Account, error) {
 		AWSAccessKeyId:     key,
 		AWSSecretAccessKey: string(decryptedSecret),
 	}, nil
+}
+
+func (c *DbController) FindAccounts(ownerIds []string) map[string]string {
+	logger.Print(ownerIds)
+	rows, _ := c.db.Query(`
+		 SELECT owner_uuid, aws_access_key_id
+		 FROM   accounts
+		 WHERE  owner_uuid = ANY($1)
+		`, pq.Array(ownerIds))
+	defer rows.Close()
+	result := make(map[string]string)
+	for rows.Next() {
+		var owner string
+		var key string
+		rows.Scan(&owner, &key)
+		result[owner] = key
+	}
+	return result
 }
 
 func (c *DbController) FindAccountForAddon(providerId string) (account Account, addon AddonResource, err error) {
