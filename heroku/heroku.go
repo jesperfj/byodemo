@@ -108,6 +108,11 @@ type Organization struct {
 	Default bool   `json:"default"`
 }
 
+type Account struct {
+	Email string `json:"email"`
+	Name  string `json:"name"`
+}
+
 func NewAddonId() string {
 	b := make([]byte, 16)
 	rand.Read(b)
@@ -267,6 +272,11 @@ func (c *Client) Organizations() ([]*Organization, error) {
 	orgs := make([]*Organization, 0)
 	err := c.get("/organizations", &orgs)
 	return orgs, err
+}
+
+func (c *Client) Account() (account *Account, err error) {
+	err = c.get("/account", &account)
+	return account, err
 }
 
 func logError(err error) {

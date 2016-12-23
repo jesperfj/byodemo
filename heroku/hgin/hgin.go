@@ -5,6 +5,7 @@ import (
 	"log"
 	"net/url"
 	"os"
+	"strings"
 
 	fernet "github.com/fernet/fernet-go"
 	"github.com/gin-gonic/gin"
@@ -81,6 +82,15 @@ func HandleCallback(cookieSecret string, oauthSecret string) gin.HandlerFunc {
 		client, err := heroku.NewClientFromCode(oauthSecret, code)
 		if err != nil {
 			c.String(400, "OAuth failure: "+err.Error())
+			return
+		}
+		account, err := client.Account()
+		if err != nil {
+			c.String(400, "OAuth failure: "+err.Error())
+			return
+		}
+		if !strings.HasSuffix(account.Email, "@heroku.com") {
+			c.String(401, "Your Heroku account is not authorized to use this service.")
 			return
 		}
 		encryptedBytes, err := fernet.EncryptAndSign([]byte(client.Authorization.AccessToken), fernetKey)
