@@ -103,8 +103,9 @@ func setupAddonRoutes(router *gin.Engine) {
 		c.Bind(requestData)
 		providerId := heroku.NewAddonId()
 		c.JSON(202, heroku.AsyncCreateAddonResponse{
-			Id:      providerId,
-			Message: "Your addon is being provisioned and will be ready shortly",
+			Id: providerId,
+			Message: "Warning: This request will fail silently if AWS credentials have not been configured.\n" +
+				"Set up AWS credentials for your team at https://byodemo-addon.herokuapp.com",
 		})
 
 		go finishProvisioning(requestData, providerId)
