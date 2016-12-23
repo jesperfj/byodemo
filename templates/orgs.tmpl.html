@@ -14,7 +14,7 @@
       <tbody>
         {{ range .orgs }}
           <tr>
-            <td><a href="{{ .Organization.Id }}">{{ .Organization.Name }}</a></td>
+            <td>{{ .Organization.Name }}</td>
             {{ if .HasAccount }}
               <td>
                   {{ .AWSAccessKeyId }}
