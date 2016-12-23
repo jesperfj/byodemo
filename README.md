@@ -14,7 +14,7 @@ This demo add-on offers exactly that. It works the following way:
 
 You can try it out in just two simple steps:
 
-1. Put yourself in the role of a Heroku Team Admin or someone responsible for AWS accounts. Go to [[https://byodemo-addon.herokuapp.com]] and link on or more of your Heroku Teams/Orgs to an AWS account. 
+1. Put yourself in the role of a Heroku Team Admin or someone responsible for AWS accounts. Go to https://byodemo-addon.herokuapp.com and link on or more of your Heroku Teams/Orgs to an AWS account. 
   1. You'll need an AWS Access Key ID and a Secret Access Key. The secret key is encrypted with Fernet in the database. But this being a demo, don't use some all powerful AWS credential.
 1. Once the link is created, put yourself in the role of a developer hacking on stuff day-to-day. Maybe you want to build a nice little file manager app. How about starting with the [buckaid sample app](https://github.com/jesperfj/buckaid)? Deploy it with Heroku Button. Remember to deploy it to the team/org that you just configured an AWS account for. Otherwise it won't work.
   1. Marvel at how little you had to do to get some nice sample code working with your very own S3 bucket!
