@@ -67,7 +67,6 @@ func main() {
 	router := gin.New()
 	router.Use(gin.Logger())
 	router.LoadHTMLGlob("templates/*.tmpl.html")
-	router.Static("/static", "static")
 
 	// Root redirect
 	router.GET("/", func(c *gin.Context) {
