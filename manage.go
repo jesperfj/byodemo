@@ -56,7 +56,7 @@ func getAndValidateOrg(c *gin.Context) (org *heroku.Organization, failed bool) {
 }
 
 func setupManageRoutes(router *gin.Engine) {
-	router.GET("/callback", hgin.HandleCallback(config.cookieSecret, config.oauthSecret))
+	router.GET("/callback", hgin.HandleCallback(config.cookieSecret, config.oauthSecret, "/manage/orgs/"))
 
 	manage := router.Group("/manage", hgin.CheckAuth(config.cookieSecret, config.oauthId))
 

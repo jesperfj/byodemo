@@ -67,7 +67,7 @@ func CheckAuth(cookieSecret string, oauthId string) gin.HandlerFunc {
 	}
 }
 
-func HandleCallback(cookieSecret string, oauthSecret string) gin.HandlerFunc {
+func HandleCallback(cookieSecret string, oauthSecret string, redirect string) gin.HandlerFunc {
 
 	fernetKey, err := fernet.DecodeKey(cookieSecret)
 	if err != nil {
@@ -99,7 +99,8 @@ func HandleCallback(cookieSecret string, oauthSecret string) gin.HandlerFunc {
 			return
 		}
 		c.SetCookie(CookieName, base64.RawURLEncoding.EncodeToString(encryptedBytes), 3600, "", "", true, true)
-		c.Redirect(302, "/manage/orgs")
+
+		c.Redirect(302, redirect)
 	}
 }
 
