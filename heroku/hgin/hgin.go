@@ -89,7 +89,7 @@ func HandleCallback(cookieSecret string, oauthSecret string, redirect string) gi
 			c.String(400, "OAuth failure: "+err.Error())
 			return
 		}
-		if !strings.HasSuffix(account.Email, "@heroku.com") {
+		if !strings.HasSuffix(account.Email, "@heroku.com") || !strings.HasSuffix(account.Email, "@salesforce.com") {
 			c.String(401, "Your Heroku account is not authorized to use this service.")
 			return
 		}
