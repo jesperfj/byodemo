@@ -154,7 +154,7 @@ func (c *Client) addHeaders(req *http.Request) {
 	req.Header.Add("Authorization", c.Authorization.TokenType+" "+c.Authorization.AccessToken)
 }
 
-// Time to collapse some verbosity. Using this now just for getting orgs
+// Core get function used by a set of public functions that take care of types
 func (c *Client) get(path string, responseData interface{}) error {
 	req, err := http.NewRequest("GET", "https://api.heroku.com"+path, nil)
 	if err != nil {
@@ -204,6 +204,17 @@ func (c *Client) OwnerId(addonId string) (ownerId string, err error) {
 	logError(err)
 	ownerId = appInfo.Owner.Id
 	return ownerId, nil
+}
+
+func (c *Client) Organizations() ([]*Organization, error) {
+	orgs := make([]*Organization, 0)
+	err := c.get("/organizations", &orgs)
+	return orgs, err
+}
+
+func (c *Client) Account() (account *Account, err error) {
+	err = c.get("/account", &account)
+	return account, err
 }
 
 func (c *Client) ProvisionAddon(addonId string, success bool) (err error) {
@@ -266,17 +277,6 @@ func (c *Client) SetAddonConfig(addonId string, config AddonConfig) error {
 		return err
 	}
 	return nil
-}
-
-func (c *Client) Organizations() ([]*Organization, error) {
-	orgs := make([]*Organization, 0)
-	err := c.get("/organizations", &orgs)
-	return orgs, err
-}
-
-func (c *Client) Account() (account *Account, err error) {
-	err = c.get("/account", &account)
-	return account, err
 }
 
 func logError(err error) {
