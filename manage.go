@@ -43,7 +43,6 @@ func getAndValidateOrg(c *gin.Context) (org *heroku.Organization, failed bool) {
 	}
 	orgId := c.Param("org_id")
 	for _, o := range orgs {
-		logger.Print(o.Id, " - ", o.Name)
 		if o.Id == orgId {
 			org = o
 		}
