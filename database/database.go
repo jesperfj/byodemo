@@ -6,6 +6,7 @@ import (
 	"os"
 
 	"database/sql"
+	// Need to import pq as "pq" because we're using a pq specific feature below
 	"github.com/lib/pq"
 	_ "github.com/lib/pq"
 
